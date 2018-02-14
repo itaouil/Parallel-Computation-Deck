@@ -7,7 +7,7 @@
 // Alternatively, use the provided makefile (type 'make').
 //
 // There is an optional command line argument for the number of cards to remove, 'numToRemove'
-// (which defaults to zero). See coursework guidance for what needs to be done with this. 
+// (which defaults to zero). See coursework guidance for what needs to be done with this.
 //
 
 
@@ -96,6 +96,7 @@ int main( int argc, char** argv )
     //
     // Generate a full deck. You need to make pushCardToDeck() thread safe, and make this loop parallel.
     //
+    #pragma omp parallel for
     for( i=1; i<=13; i++ )
     {
         pushCardToDeck( Hearts  , i );
@@ -105,7 +106,7 @@ int main( int argc, char** argv )
     }
     printf( "Initial deck:\n" );
     printDeck();
-    
+
     // ... (add code to shuffle the deck).
 
     //
@@ -114,7 +115,7 @@ int main( int argc, char** argv )
     if( numToRemove>0 )
     {
         // ... (add code to pop numToRemove cards from the deck)
-        
+
         // Print the deck after the removal. You do not need to parallelise this.
         printf( "\nAfter removal of %d cards:\n", numToRemove );
         printDeck();
@@ -126,5 +127,3 @@ int main( int argc, char** argv )
     finaliseDeck();                    // MUST BE CALLED; DO NOT MODIFY OR REPLACE.
     return EXIT_SUCCESS;
 }
-
-
