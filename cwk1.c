@@ -51,22 +51,48 @@
 // Functions for stack management.
 //
 
+// Shuffle routine (swaps halves)
+void shuffleDeck( int size )
+{
+    // Get middle of the deck (assumed even number)
+    // int middle = size / 2;
+}
+
 // Pushes the item to the top of the deck.
 void pushCardToDeck( cardSuit suit, int value )
 {
     // Make sure we don't already have the maximum number of cards.
-    if( deckSize == MAX_DECK_SIZE )
+    #pragma omp critical
     {
-        printf( "Cannot add any more cards - the deck is full!\n" );
-        return;
+        if( deckSize != MAX_DECK_SIZE )
+        {
+            // Copy the data over to the card one beyond the current deck size.
+            deck[deckSize].suit  = suit;
+            deck[deckSize].value = value;
+
+            // Increment the stack counter.
+            deckSize++;
+        }
+        else {
+            printf( "Cannot add any more cards - the deck is full!\n" );
+        }
     }
+}
 
-    // Copy the data over to the card one beyond the current deck size.
-    deck[deckSize].suit  = suit;
-    deck[deckSize].value = value;
-
-    // Increment the stack counter.
-    deckSize++;
+// Pops a card from the top
+void popCardFromDeck()
+{
+    // Make sure our deck is not 0
+    #pragma omp critical
+    {
+        if( deckSize != 0 )
+        {
+            deckSize--;
+        }
+        else {
+            printf( "Cannot remove any more cards - the deck is empty!\n" );
+        }
+    }
 }
 
 // Copy one card to another, field by field.
@@ -76,7 +102,6 @@ void copyCard( const card *source, card *dest )
     dest->value = source->value;
     dest->suit  = source->suit;
 }
-
 
 //
 // Main
@@ -107,14 +132,19 @@ int main( int argc, char** argv )
     printf( "Initial deck:\n" );
     printDeck();
 
-    // ... (add code to shuffle the deck).
+    // Shuffle
+    shuffleDeck(deckSize);
 
     //
     // Remove cards from the deck.
     //
     if( numToRemove>0 )
     {
-        // ... (add code to pop numToRemove cards from the deck)
+        #pragma omp parallel for
+        for( i=0; i<numToRemove; i++ )
+        {
+            popCardFromDeck();
+        }
 
         // Print the deck after the removal. You do not need to parallelise this.
         printf( "\nAfter removal of %d cards:\n", numToRemove );
