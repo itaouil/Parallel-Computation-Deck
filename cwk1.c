@@ -54,8 +54,25 @@
 // Shuffle routine (swaps halves)
 void shuffleDeck( int size )
 {
-    // Get middle of the deck (assumed even number)
-    // int middle = size / 2;
+    // Iterators
+    int i;
+
+    #pragma omp critical
+    {
+        if ( deckSize > 1 ) {
+            for ( i=0; i<deckSize/2; i++ ) {
+                // Temporal card variable
+                card temp = deck[i];
+
+                // Swap
+                deck[deckSize-i] = temp;
+                deck[i] = deck[deckSize-i];
+            }
+        }
+        else {
+            printf("Cannot shuffle as deck does not contain enough cards\n", );
+        }
+    }
 }
 
 // Pushes the item to the top of the deck.
