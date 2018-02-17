@@ -10,7 +10,6 @@
 // (which defaults to zero). See coursework guidance for what needs to be done with this.
 //
 
-
 //
 // Includes
 //
@@ -46,7 +45,6 @@
 // void finaliseDeck();      // Will be replaced for assessment.
 //
 
-
 //
 // Functions for stack management.
 //
@@ -59,28 +57,25 @@ void shuffleDeck( int size )
 
     #pragma omp critical
     {
-        if ( deckSize > 1 ) {
-            for ( i=0; i<deckSize/2; i++ ) {
-                // Temporal card variable
-                card temp = deck[i];
+        for ( i=0; i<deckSize/2; i++ ) {
+            // Temporal card variable
+            card temp = deck[i];
 
-                // Swap
-                deck[deckSize-i] = temp;
-                deck[i] = deck[deckSize-i];
-            }
-        }
-        else {
-            printf("Cannot shuffle as deck does not contain enough cards\n", );
+            // Swap
+            copyCard( &deck[deckSize-i], &deck[i] );
+            copyCard( &temp, &deck[deckSize-i] );
         }
     }
+
 }
 
 // Pushes the item to the top of the deck.
 void pushCardToDeck( cardSuit suit, int value )
 {
-    // Make sure we don't already have the maximum number of cards.
+    // Critical region (to avoid data races)
     #pragma omp critical
     {
+        // Check if MAX deck size not reached
         if( deckSize != MAX_DECK_SIZE )
         {
             // Copy the data over to the card one beyond the current deck size.
@@ -99,17 +94,9 @@ void pushCardToDeck( cardSuit suit, int value )
 // Pops a card from the top
 void popCardFromDeck()
 {
-    // Make sure our deck is not 0
-    #pragma omp critical
-    {
-        if( deckSize != 0 )
-        {
-            deckSize--;
-        }
-        else {
-            printf( "Cannot remove any more cards - the deck is empty!\n" );
-        }
-    }
+    // Atomic decrement
+    #pragma omp atomic
+    deckSize--;
 }
 
 // Copy one card to another, field by field.
@@ -150,12 +137,17 @@ int main( int argc, char** argv )
     printDeck();
 
     // Shuffle
-    shuffleDeck(deckSize);
+    if ( deckSize>1 ) {
+        shuffleDeck(deckSize);
+    }
+    else {
+        printf("Cannot shuffle. Deck size not sufficient...\n", );
+    }
 
     //
     // Remove cards from the deck.
     //
-    if( numToRemove>0 )
+    if( numToRemove>0 && numToRemove<MAX_DECK_SIZE && numToRemove<deckSize+1)
     {
         #pragma omp parallel for
         for( i=0; i<numToRemove; i++ )
@@ -166,6 +158,9 @@ int main( int argc, char** argv )
         // Print the deck after the removal. You do not need to parallelise this.
         printf( "\nAfter removal of %d cards:\n", numToRemove );
         printDeck();
+    }
+    else {
+        printf("Cannot pop card. numToRemove value is not valid...\n", );
     }
 
     //
