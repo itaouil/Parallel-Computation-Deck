@@ -49,6 +49,15 @@
 // Functions for stack management.
 //
 
+// Copy one card to another, field by field.
+// To copy from i to j call as: copyCard( &deck[i], &deck[j] )
+void copyCard( const card *source, card *dest )
+{
+    dest->value = source->value;
+    dest->suit  = source->suit;
+
+}
+
 // Shuffle routine (swaps halves)
 void shuffleDeck( int size )
 {
@@ -99,14 +108,6 @@ void popCardFromDeck()
     deckSize--;
 }
 
-// Copy one card to another, field by field.
-// To copy from i to j call as: copyCard( &deck[i], &deck[j] )
-void copyCard( const card *source, card *dest )
-{
-    dest->value = source->value;
-    dest->suit  = source->suit;
-}
-
 //
 // Main
 //
@@ -139,9 +140,11 @@ int main( int argc, char** argv )
     // Shuffle
     if ( deckSize>1 ) {
         shuffleDeck(deckSize);
+        printf("After shuffle\n");
+        printDeck();
     }
     else {
-        printf("Cannot shuffle. Deck size not sufficient...\n", );
+        printf("Cannot shuffle. Deck size not sufficient...\n");
     }
 
     //
@@ -158,9 +161,6 @@ int main( int argc, char** argv )
         // Print the deck after the removal. You do not need to parallelise this.
         printf( "\nAfter removal of %d cards:\n", numToRemove );
         printDeck();
-    }
-    else {
-        printf("Cannot pop card. numToRemove value is not valid...\n", );
     }
 
     //
