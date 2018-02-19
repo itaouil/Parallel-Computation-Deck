@@ -61,7 +61,7 @@ void copyCard( const card *source, card *dest )
 // Shuffle routine (swaps halves)
 void shuffleDeck( int size )
 {
-    // Iterators
+    // Iterator
     int i;
 
     #pragma omp critical
@@ -70,9 +70,9 @@ void shuffleDeck( int size )
             // Temporal card variable
             card temp = deck[i];
 
-            // Swap
-            copyCard( &deck[deckSize-i], &deck[i] );
-            copyCard( &temp, &deck[deckSize-i] );
+            // Swap cards with copyCard routine
+            copyCard( &deck[deckSize/2 + i], &deck[i] );
+            copyCard( &temp, &deck[deckSize/2 + i] );
         }
     }
 
@@ -127,7 +127,7 @@ int main( int argc, char** argv )
     // Generate a full deck. You need to make pushCardToDeck() thread safe, and make this loop parallel.
     //
     #pragma omp parallel for
-    for( i=1; i<=13; i++ )
+    for( i=1; i<=2; i++ )
     {
         pushCardToDeck( Hearts  , i );
         pushCardToDeck( Diamonds, i );
@@ -136,12 +136,14 @@ int main( int argc, char** argv )
     }
     printf( "Initial deck:\n" );
     printDeck();
+    printf("\n");
 
     // Shuffle
     if ( deckSize>1 ) {
         shuffleDeck(deckSize);
         printf("After shuffle\n");
         printDeck();
+        printf("\n");
     }
     else {
         printf("Cannot shuffle. Deck size not sufficient...\n");
@@ -161,6 +163,7 @@ int main( int argc, char** argv )
         // Print the deck after the removal. You do not need to parallelise this.
         printf( "\nAfter removal of %d cards:\n", numToRemove );
         printDeck();
+        printf("\n");
     }
 
     //

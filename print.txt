@@ -1,112 +1,38 @@
 Initial deck:
 ---TOP----
-Queen of clubs
-6 of clubs
-6 of spades
-6 of diamonds
-4 of clubs
-4 of spades
-4 of diamonds
-4 of hearts
-3 of clubs
-6 of hearts
-5 of clubs
-5 of spades
-5 of diamonds
-5 of hearts
-10 of clubs
-King of clubs
 2 of clubs
 2 of spades
 2 of diamonds
 2 of hearts
-3 of spades
-3 of diamonds
-3 of hearts
-King of spades
-King of diamonds
 Ace of clubs
 Ace of spades
-10 of spades
-Jack of clubs
-Jack of spades
-Jack of diamonds
-Queen of spades
-8 of clubs
-8 of spades
-King of hearts
-10 of diamonds
-10 of hearts
-9 of clubs
-9 of spades
-8 of diamonds
-8 of hearts
-9 of diamonds
-9 of hearts
 Ace of diamonds
-7 of clubs
-7 of spades
-7 of diamonds
-7 of hearts
 Ace of hearts
-Jack of hearts
-Queen of diamonds
-Queen of hearts
 --BOTTOM--
-Total number of items in deck: 52
+Total number of items in deck: 8
+
 After shuffle
 ---TOP----
-Queen of diamonds
-Jack of hearts
-Ace of hearts
-7 of hearts
-7 of diamonds
-7 of spades
-7 of clubs
-Ace of diamonds
-9 of hearts
-9 of diamonds
-8 of hearts
-8 of diamonds
-9 of spades
-9 of clubs
-10 of hearts
-10 of diamonds
-King of hearts
-8 of spades
-8 of clubs
-Queen of spades
-Jack of diamonds
-Jack of spades
-Jack of clubs
-10 of spades
-Ace of spades
 Ace of clubs
-King of diamonds
-King of spades
-3 of hearts
-3 of diamonds
-3 of spades
-2 of hearts
-2 of diamonds
-2 of spades
+Ace of spades
+Ace of diamonds
+Ace of hearts
 2 of clubs
-King of clubs
-10 of clubs
-5 of hearts
-5 of diamonds
-5 of spades
-5 of clubs
-6 of hearts
-3 of clubs
-4 of hearts
-4 of diamonds
-4 of spades
-4 of clubs
-6 of diamonds
-6 of spades
-6 of clubs
-Queen of clubs
-0 of spades
+2 of spades
+2 of diamonds
+2 of hearts
 --BOTTOM--
-Total number of items in deck: 52
+Total number of items in deck: 8
+
+
+After removal of 2 cards:
+---TOP----
+Ace of diamonds
+Ace of hearts
+2 of clubs
+2 of spades
+2 of diamonds
+2 of hearts
+--BOTTOM--
+Total number of items in deck: 6
+
