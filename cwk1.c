@@ -64,16 +64,14 @@ void shuffleDeck( int size )
     // Iterator
     int i;
 
-    #pragma omp critical
-    {
-        for ( i=0; i<deckSize/2; i++ ) {
-            // Temporal card variable
-            card temp = deck[i];
+    #pragma omp parallel for
+    for ( i=0; i<deckSize/2; i++ ) {
+        // Temporal card variable
+        card temp = deck[i];
 
-            // Swap cards with copyCard routine
-            copyCard( &deck[deckSize/2 + i], &deck[i] );
-            copyCard( &temp, &deck[deckSize/2 + i] );
-        }
+        // Swap cards with copyCard routine
+        copyCard( &deck[deckSize/2 + i], &deck[i] );
+        copyCard( &temp, &deck[deckSize/2 + i] );
     }
 
 }
@@ -127,7 +125,7 @@ int main( int argc, char** argv )
     // Generate a full deck. You need to make pushCardToDeck() thread safe, and make this loop parallel.
     //
     #pragma omp parallel for
-    for( i=1; i<=2; i++ )
+    for( i=1; i<=13; i++ )
     {
         pushCardToDeck( Hearts  , i );
         pushCardToDeck( Diamonds, i );
